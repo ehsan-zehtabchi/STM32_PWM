@@ -45,7 +45,6 @@
 
 /* USER CODE BEGIN PV */
 uint32_t dutyCycle = 0; // Variable to hold the duty cycle value
-uint32_t dutyCycleCH2 = 0; // Variable to hold the duty cycle value for channel 2
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -92,8 +91,6 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //Start PWM signal generation on TIM2 channel 1
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-  //Start PWM signal generation on TIM2 channel 2
-  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,27 +98,15 @@ int main(void)
   while (1)
   {
     //sweep the duty cycle from 0% to 100% and back
-    for (dutyCycle = 0; dutyCycle <= 1000; dutyCycle +=100)
+    for (dutyCycle = 0; dutyCycle <= 1000; dutyCycle++)
     {
       __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, dutyCycle);
-      HAL_Delay(1); // Delay for 1 ms
-      for (dutyCycleCH2 = 0; dutyCycleCH2 <= 1000; dutyCycleCH2 +=10)
-      {
-      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, dutyCycleCH2);
-      HAL_Delay(1); // Delay for 1 ms
-      }
-      for (dutyCycleCH2 = 1000; dutyCycleCH2 > 0; dutyCycleCH2 -=10)
-      {
-      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, dutyCycleCH2);
-      HAL_Delay(1); // Delay for 1 ms
-      }
+      HAL_Delay(1);
     }
-
     for (dutyCycle = 1000; dutyCycle > 0; dutyCycle--)
     {
       __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, dutyCycle);
-      HAL_Delay(5); // Delay for 5 ms
-
+      HAL_Delay(1); // Delay for 10 ms
     }
     /* USER CODE END WHILE */
 
